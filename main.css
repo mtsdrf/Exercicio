@@ -1,0 +1,9 @@
+html, body{
+    margin: 1%;
+}
+div{
+    width: 50%!important;
+}
+#btn-retval{
+    margin-bottom: 2%;
+}
