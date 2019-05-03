@@ -32,6 +32,27 @@ function retornarValor( json, option){
     }
 };
 
+function retornarValores(json1, option1, json2, option2){
+    json1 = json1.toString();
+    json2 = json2.toString();
+    option1 = option1.toString();
+    option2 = option2.toString();
+    if (result[json1] && result[json2]) {
+        var retorno = new Array();
+        for (var i = 0; i < result[json1].length; i++) {
+            retorno[i] = [result[json1][i][option1], result[json2][i][option2]];
+        }
+        return retorno;
+    } else {
+        return "Parâmetros Inválidos";
+    }
+}
+
 function getRetornarValor(){
     alert(retornarValor($("#param1").val(), $("#param2").val()));
 }
+
+function getRetornarValores(){
+    alert(retornarValores($("#param3").val(), $("#param4").val(), $("#param5").val(), $("#param6").val()));
+}
+
