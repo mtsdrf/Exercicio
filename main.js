@@ -18,32 +18,63 @@ var result = {
     ]
 };
 
-function retornarValor( json, option){
+function retornarValor(json, option){
+    //Converte parametros para string
     json = json.toString();
     option = option.toString();
+    //Verifica se existe o objeto passado como parâmetro 
     if(result[json]){
-        var retorno = new Array();
-        for (var i = 0; i < result[json].length; i++) {
+        //Cria o array retorno
+        let retorno = new Array();
+        //Laço para preencher o array com os resultados da busca
+        for (let i = 0; i < result[json].length; i++) {
             retorno[i] = result[json][i][option];
         }
+        //Retorno
         return retorno;
-    }else{
+    }
+    //Retorno caso os parâmetros sejam invalidos
+    else{
         return "Parâmetros Inválidos";
     }
 };
 
-function retornarValores(json1, option1, json2, option2){
-    json1 = json1.toString();
-    json2 = json2.toString();
-    option1 = option1.toString();
-    option2 = option2.toString();
-    if (result[json1] && result[json2]) {
-        var retorno = new Array();
-        for (var i = 0; i < result[json1].length; i++) {
-            retorno[i] = [result[json1][i][option1], result[json2][i][option2]];
+function retornarValores(json1){
+    //Trata o parâmetro transformando em string, removendo os espaços em branco e o dividindo pelos ";". Atribiu eles ao array params
+    let params = json1.toString().replace(/\s/g, '').split(";");
+    //Verifica se os parâmetros estão vazios ou são nulos
+    if(params != '' && params != null){
+        //Cria o array retorno
+        let retorno = new Array();
+        //Laço que percorre o array com os parâmetros 
+        for(let i = 0; i < params.length; i++){
+            //Quebra o parametro na virgula, separando o nome do objeto da opção 
+            let param = params[i].split(",");
+            //Chama a função que busca os valores no json
+            let result = retornarValor(param[0], param[1]);
+            if (result == "Parâmetros Inválidos"){
+                return "Parâmetros Inválidos";
+            }else{
+                //Verifica se o array de retorno é vazio
+                if(retorno.length == 0){
+                    //Preenche o array de retorno vazio
+                    for(let n = 0 ; n < result.length ; n++){
+                        retorno[n] = result[n];
+                    }
+                //Caso o array de rotorno ja esteja populado
+                }else{
+                    //Preenche o array de retorno quando ja populado
+                    for (let n = 0; n < result.length; n++) {
+                        retorno[n] = [retorno[n], result[n]];
+                    }
+                }
+            }
         }
+        //Retorno
         return retorno;
-    } else {
+    }
+    //Retorno caso os parâmetros sejam invalidos
+    else {
         return "Parâmetros Inválidos";
     }
 }
@@ -53,6 +84,5 @@ function getRetornarValor(){
 }
 
 function getRetornarValores(){
-    alert(retornarValores($("#param3").val(), $("#param4").val(), $("#param5").val(), $("#param6").val()));
+    alert(retornarValores($("#param3").val()));
 }
-
